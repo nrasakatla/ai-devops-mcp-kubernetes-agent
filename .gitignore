@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.env.*
+.eggs/
+build/
+dist/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+
+# Kubernetes / local cluster
+*.kubeconfig
+kubeconfig*
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+*.swp
+
+# Secrets (never commit)
+*.pem
+*.key
+*.crt
+credentials
+*.token
+auth.json
+
+# Ollama / models
+.ollama/
+
+# Node
+node_modules/
+
+# Generated incident reports (samples are committed intentionally in examples/, but not scratch)
+examples/incident-reports/*.scratch.md

@@ -1,0 +1,38 @@
+# Pending (unschedulable) fixture.
+#
+# The pod requests a nodeSelector value that no node satisfies, so it stays
+# Pending forever. Demonstrates the Pending class.
+#
+# NOTE: Synthetic demo data only.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pending-demo
+  namespace: ai-devops-ns
+  labels:
+    app: pending-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pending-demo
+  template:
+    metadata:
+      labels:
+        app: pending-demo
+    spec:
+      restartPolicy: Always
+      nodeSelector:
+        # No kind node carries this label -> pod never schedules.
+        disktype: nvme-ssd-not-present
+      containers:
+        - name: pending
+          image: busybox:1.36
+          command: ["sh", "-c", "echo hello; sleep 3600"]
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi

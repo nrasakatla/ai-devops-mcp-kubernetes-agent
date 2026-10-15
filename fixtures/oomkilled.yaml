@@ -1,0 +1,42 @@
+# OOMKilled fixture.
+#
+# The container allocates a growing in-memory buffer until it exceeds its tiny
+# 64Mi limit, so the kernel OOM killer terminates it with reason OOMKilled and
+# exit code 137. Demonstrates the OOMKilled class.
+#
+# NOTE: Synthetic demo data only.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oomkilled-demo
+  namespace: ai-devops-ns
+  labels:
+    app: oomkilled-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oomkilled-demo
+  template:
+    metadata:
+      labels:
+        app: oomkilled-demo
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: oom
+          image: python:3.12-alpine
+          command:
+            - python
+            - -c
+            - |
+              chunks = []
+              while True:
+                  chunks.append(bytearray(8 * 1024 * 1024))
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
